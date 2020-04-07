@@ -81,7 +81,6 @@ public class WriteAndReadDataSet {
             while (dis.available() > 0) {
             	System.out.println(dis.readUTF());
             }
-            
         } catch (FileNotFoundException ex) {
             System.err.println("couldn’t open file - fatal");
             System.exit(0);
@@ -91,9 +90,9 @@ public class WriteAndReadDataSet {
         }
         try {
             dis.close();
-		} catch (IOException ex) {
+        } catch (IOException ex) {
             System.err.println("couldn’t close file - fatal");
             System.exit(0); // brutal exception handling
-		}
+        }
     }
 }
