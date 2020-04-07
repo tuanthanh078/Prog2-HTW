@@ -63,12 +63,12 @@ public class WriteAndReadDataSet {
             System.err.println("couldn’t open file - fatal");
             System.exit(0); // brutal exception handling
         }
-		try {
-			dos.close();
-		} catch (IOException ex) {
-			System.err.println("couldn’t close file - fatal");
+        try {
+            dos.close();
+        } catch (IOException ex) {
+            System.err.println("couldn’t close file - fatal");
             System.exit(0); // brutal exception handling
-		}
+        }
         
         // read data from file and print to System.out
         // TODO: your job use DataInputStream / FileInputStream
@@ -86,13 +86,13 @@ public class WriteAndReadDataSet {
             System.err.println("couldn’t open file - fatal");
             System.exit(0);
         } catch (IOException ex) {
-        	System.err.println("couldn’t read data (fatal)");
-        	System.exit(0);
-		}
+            System.err.println("couldn’t read data (fatal)");
+            System.exit(0);
+        }
         try {
-			dis.close();
+            dis.close();
 		} catch (IOException ex) {
-			System.err.println("couldn’t close file - fatal");
+            System.err.println("couldn’t close file - fatal");
             System.exit(0); // brutal exception handling
 		}
     }
