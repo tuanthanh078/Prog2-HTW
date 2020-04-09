@@ -37,50 +37,56 @@ public class WriteAndReadDataSet {
         try {
             os = new FileOutputStream(fileName);
             dos = new DataOutputStream(os);
-            try {
-            	dos.writeUTF(sensorName);
-            } catch (IOException ex) {
-                System.err.println("couldn’t write name of sensor (fatal)");
-                System.exit(0);
-            }
-            for (int i = 0; i < values.length; i++) {
-                try {
-                    dos.writeUTF(Long.toString(timeStamps[i]));
-                } catch (IOException ex) {
-                    System.err.println("couldn’t write data (fatal)");
-                    System.exit(0);
-                }
-                for (int j = 0; j < values[i].length; j++) {
-                    try {
-                        dos.writeUTF(Float.toString(values[i][j]));
-                    } catch (IOException ex) {
-                        System.err.println("couldn’t write data (fatal)");
-                        System.exit(0);
-                    }
+            dos.writeUTF(sensorName);
+            int numOfTimeStamps = timeStamps.length;
+            dos.writeInt(numOfTimeStamps);
+            for (int i = 0; i < numOfTimeStamps; i++) {
+                dos.writeLong(timeStamps[i]);
+                int numOfValues = values[i].length;
+                dos.writeInt(numOfValues);
+                for (int j = 0; j < numOfValues; j++) {
+                    dos.writeFloat(values[i][j]);
                 }
             }
         } catch (FileNotFoundException ex) {
             System.err.println("couldn’t open file - fatal");
             System.exit(0); // brutal exception handling
+        } catch (IOException ex) {
+            System.err.println("couldn’t write data (fatal)");
+            System.exit(0);
         }
         try {
             dos.close();
         } catch (IOException ex) {
             System.err.println("couldn’t close file - fatal");
-            System.exit(0); // brutal exception handling
+            System.exit(0);
         }
-        
+
         // read data from file and print to System.out
         // TODO: your job use DataInputStream / FileInputStream
         InputStream is = null;
         DataInputStream dis = null;
+        String sensorName_ = "";
+        long[] timeStamps_ = null;
+        float[][] values_ = null;
+        boolean successful = false;
         try {
             is = new FileInputStream(fileName);
             dis = new DataInputStream(is);
-            System.out.println(dis.readUTF());
-            while (dis.available() > 0) {
-            	System.out.println(dis.readUTF());
+            sensorName_ = dis.readUTF();
+            int numOfTimeStamps_ = dis.readInt();
+            timeStamps_ = new long[numOfTimeStamps_];
+            values_ = new float[numOfTimeStamps_][];
+            for (int i = 0; i < numOfTimeStamps_; i++) {
+                timeStamps_[i] = dis.readLong();
+                int numOfValues_ = dis.readInt();
+                float[] valueSet_ = new float[numOfValues_];
+                for (int j = 0; j < numOfValues_; j++) {
+                    valueSet_[j] = dis.readFloat();
+                }
+                values_[i] = valueSet_;
             }
+            successful = true;
         } catch (FileNotFoundException ex) {
             System.err.println("couldn’t open file - fatal");
             System.exit(0);
@@ -92,7 +98,17 @@ public class WriteAndReadDataSet {
             dis.close();
         } catch (IOException ex) {
             System.err.println("couldn’t close file - fatal");
-            System.exit(0); // brutal exception handling
+            System.exit(0);
+        }
+
+        if (successful && timeStamps_ != null && values_ != null) {
+            System.out.println("Name of the sensor: " + sensorName_);
+            for (int i = 0; i < timeStamps_.length; i++) {
+                System.out.println("Time stamp " + i + ":" + timeStamps_[i]);
+                for (int j = 0; j < values_[i].length; j++) {
+                    System.out.println(j + 1 + ". Values: " + values_[i][j]);
+                }
+            }
         }
     }
 }
