@@ -101,7 +101,7 @@ public class WriteAndReadDataSet {
             System.exit(0);
         }
 
-        if (successful && timeStamps_ != null && values_ != null) {
+        if (successful && timeStamps_ != null && values_ != null) { // check and print
             System.out.println("Name of the sensor: " + sensorName_);
             for (int i = 0; i < timeStamps_.length; i++) {
                 System.out.println("Time stamp " + i + ":" + timeStamps_[i]);
