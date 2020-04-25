@@ -52,7 +52,7 @@ public class ReadStreamTest {
     }
     
     @Test
-    public void testReadData() throws IOException {
+    public void testReadData() throws IOException, PersistenceException {
         long timeStamp = System.currentTimeMillis();
         float[] values = {(float) 0.7, (float) 1.2, (float) 2.1};
         byte[] expecteds = concatAll(longToBytes(timeStamp), intToBytes(values.length), floatToBytes(values[0]), floatToBytes(values[1]), floatToBytes(values[2]));
@@ -69,7 +69,7 @@ public class ReadStreamTest {
     }
     
     @Test (expected = IOException.class)
-    public void testReadDataWithException() throws IOException {
+    public void testReadDataWithException() throws IOException, PersistenceException {
         int x = 6666666;
         OutputStream os = new FileOutputStream("src\\test\\resources\\test.txt");
         os.write(intToBytes(x));

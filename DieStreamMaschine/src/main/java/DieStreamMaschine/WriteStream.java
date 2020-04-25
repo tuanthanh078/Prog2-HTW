@@ -13,7 +13,7 @@ public class WriteStream implements StreamWritingMachine {
       
     @Override
     public void open(String fileName) throws FileNotFoundException {
-        os = new FileOutputStream(fileName);
+        os = new FileOutputStream(fileName, true);
         dos = new DataOutputStream(os);
     }
     

@@ -23,7 +23,7 @@ public class ReadStream implements StreamReadingMachine {
     }
     
     @Override
-    public DataSet readData() throws IOException {
+    public DataSet readData() throws IOException, PersistenceException {
         long timeStamp = dis.readLong();
         int numOfValues = dis.readInt();
         float [] values = new float[numOfValues];

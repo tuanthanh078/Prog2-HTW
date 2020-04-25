@@ -102,7 +102,7 @@ public class StoreDataTest {
     }
 
     @Test
-    public void testIterator() {
+    public void testIterator() throws PersistenceException {
         long timeStamp = System.currentTimeMillis();
         float[] values1 = {(float) 0.7, (float) 1.2, (float) 2.1};
         float[] values2 = {(float) 1.5};
