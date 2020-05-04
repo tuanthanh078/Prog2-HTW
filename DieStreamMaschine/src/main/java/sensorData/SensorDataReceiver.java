@@ -16,7 +16,7 @@ public class SensorDataReceiver {
         this.storage = storage;
     }
 
-    DataStorage getStorage() {
+    public DataStorage getStorage() {
         return storage;
     }
     
