@@ -33,17 +33,14 @@ public class GameEngine implements GameReceiver, GameUsage {
     
     @Override
     public void receiveDice(int random) throws IOException, StatusException {
-        System.out.println("receiveDice1");
         if (this.status != GameStatus.START
             && this.status != GameStatus.DICE_SENT) {
                 throw new StatusException();
         }
         this.receivedRandom = random;
         if(this.status == GameStatus.DICE_SENT) {
-            System.out.println("receiveDice2");
             this.decideWhoStarts();
         } else {
-            System.out.println("receiveDice3");
             this.status = GameStatus.DICE_RECEIVED;
         }
     }
@@ -58,7 +55,10 @@ public class GameEngine implements GameReceiver, GameUsage {
         if (shipBoard.isGameOver()) {
             enemyShootResults[0] = ShootResults.GAMEOVER.getValue();
             this.status = GameStatus.LOST;
+            System.out.println("Game Over");
+            System.out.println("You lost");
         }
+        this.sendShootResult(enemyShootResults);
     }
     
     @Override
@@ -78,6 +78,7 @@ public class GameEngine implements GameReceiver, GameUsage {
                 shipLocationData[2] = result[3];
                 shipLocationData[3] = result[4];
                 recordBoard.sunk(shipLocationData);
+                System.out.println("Sunk 1 ship");
                 break;
             case 2:
                 shipLocationData = new int[4];
@@ -87,6 +88,8 @@ public class GameEngine implements GameReceiver, GameUsage {
                 shipLocationData[3] = result[4];
                 recordBoard.sunk(shipLocationData);
                 status = GameStatus.WON;
+                System.out.println("Game Over");
+                System.out.println("You won");
                 break;
             default:
                 System.err.print("Invalid result!");
@@ -115,7 +118,6 @@ public class GameEngine implements GameReceiver, GameUsage {
         this.lastY = y;
         sender.sendShoot(x, y);
         this.status = GameStatus.PASSIVE;
-
     }
     
     public void sendShootResult(int[] result) throws IOException, StatusException {
@@ -124,7 +126,6 @@ public class GameEngine implements GameReceiver, GameUsage {
 
     @Override
     public void doDice() throws StatusException, IOException {
-        System.out.println(status);
         if(this.status != GameStatus.START
            && this.status != GameStatus.DICE_RECEIVED) {
                 throw new StatusException();
@@ -158,6 +159,10 @@ public class GameEngine implements GameReceiver, GameUsage {
         return this.status == GameStatus.PASSIVE;
     }
     
+    public boolean isGameOver() {
+        return this.status == GameStatus.WON || this.status == GameStatus.LOST;
+    }
+    
     @Override
     public void shoot(int x, int y) throws GameException, StatusException, IOException {
 
@@ -165,5 +170,13 @@ public class GameEngine implements GameReceiver, GameUsage {
     
     public void placeShip(int x, int y, int length, int isHorizontal) throws GameException {
         shipBoard.placeShip(x, y, length, isHorizontal);
+    }
+    
+    public void displayShipBoard() {
+        shipBoard.display();
+    }
+    
+    public void displayRecordBoard() {
+        recordBoard.display();
     }
 }

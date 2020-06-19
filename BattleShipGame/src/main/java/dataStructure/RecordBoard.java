@@ -19,6 +19,7 @@ public class RecordBoard {
     }
     
     public void display() {
+        System.out.println("Record Board");
         System.out.println("   1 2 3 4 5 6 7 8 9 10");
         for (int i = 0; i < DIM; i++) {
             
@@ -53,7 +54,7 @@ public class RecordBoard {
         int y = shipLocationData[1];
         int length = shipLocationData[2];
         int isHorizontal = shipLocationData[3];
-        if (isHorizontal == 1) {
+        if (isHorizontal == 0) {
             for (int i = 0; i < length; i++) {
                 this.record(x++, y, BoardCell.SUNK);
             }

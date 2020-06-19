@@ -6,7 +6,7 @@ public class ShipBoard {
     public static final int DIM = 10;
     private BoardCell[][] board = new BoardCell[DIM][DIM];
     private int numShips = 10;
-    private int[][] shipLocationData = null;
+    private int[][] shipLocationData = new int[10][4];
     private boolean[] sunkShips = new boolean[numShips];
     private int numSunkShips = 0; 
 
@@ -16,35 +16,43 @@ public class ShipBoard {
                 board[i][j] = BoardCell.WATER;
             }
         }
+        for (int i = 0; i < shipLocationData.length; i++) {
+            for (int j = 0; j < shipLocationData[0].length; j++) {
+                shipLocationData[i][j] = Integer.MAX_VALUE;
+            } 
+        }
     }
         
     public void placeShip(int x, int y, int length, int isHorizontal) throws GameException {
-        if (isHorizontal == 1) {
+        int _x = x;
+        int _y = y;
+        if (isHorizontal == 0) {
             checkValidCoordinate(x+length-1, y);
             for (int i = 0; i < length; i++) {
-                if (board[x++][y] == BoardCell.SHIP) {
+                if (board[_x++][y] == BoardCell.SHIP) {
                     throw new GameException("collision");
                 }
             }
+            _x = x;
             for (int i = 0; i < length; i++) {
-                board[x++][y] = BoardCell.SHIP;
+                board[_x++][y] = BoardCell.SHIP;
             }
         }
-        
-        if (isHorizontal == 0) {
+        if (isHorizontal == 1) {
             checkValidCoordinate(x, y+length-1);
             for (int i = 0; i < length; i++) {
-                if (board[x][y++] == BoardCell.SHIP) {
+                if (board[x][_y++] == BoardCell.SHIP) {
                     throw new GameException("collision");
                 }
             }
+            _y = y;
             for (int i = 0; i < length; i++) {
-                board[x][y++] = BoardCell.SHIP;
+                board[x][_y++] = BoardCell.SHIP;
             }
         }
         
         for (int i = 0; i < shipLocationData.length; i++) {
-            if (shipLocationData[i] != null) {
+            if (shipLocationData[i][0] == Integer.MAX_VALUE) {
                 shipLocationData[i][0] = x;
                 shipLocationData[i][1] = y;
                 shipLocationData[i][2] = length;
@@ -66,10 +74,17 @@ public class ShipBoard {
             board[x][y] = BoardCell.SHOT;
             result = checkSunk();
             if (result == null) {
+                result = new int[5];
                 result[0] = ShootResults.SHOT.getValue();
                 return result;
             }
-            else return result;
+            else {
+                if (this.isGameOver()) {
+                    result[0] = ShootResults.GAMEOVER.getValue();
+                    return result;
+                }
+                else return result;
+            }
         }
     }
     
@@ -78,6 +93,7 @@ public class ShipBoard {
     }
     
     public void display() {
+        System.out.println("Ship Board");
         System.out.println("   1 2 3 4 5 6 7 8 9 10");
         for (int i = 0; i < DIM; i++) {
             
@@ -114,41 +130,52 @@ public class ShipBoard {
                 int y = shipLocationData[i][1];
                 int length = shipLocationData[i][2];
                 int isHorizontal = shipLocationData[i][3];
-                if (isHorizontal == 1) {
-                    int counter = 0;
-                    for (int j = 0; j < length; j++) {
-                        if (board[x++][y] == BoardCell.SHOT) {
-                            counter++;
-                        }
-                    }
-                    if (counter == length) {
-                        for (int j = 0; j < length; j++) {
-                            board[x++][y] = BoardCell.SUNK;
-                        }
-                        numSunkShips++;
-                    }
-                }
+                int _x = x;
+                int _y = y;
                 if (isHorizontal == 0) {
                     int counter = 0;
                     for (int j = 0; j < length; j++) {
-                        if (board[x][y++] == BoardCell.SHOT) {
+                        if (board[_x++][y] == BoardCell.SHOT) {
                             counter++;
                         }
                     }
+                    _x = x;
                     if (counter == length) {
                         for (int j = 0; j < length; j++) {
-                            board[x][y++] = BoardCell.SUNK;
+                            board[_x++][y] = BoardCell.SUNK;
                         }
                         numSunkShips++;
+                        int[] result = new int[5];
+                        result[0] = ShootResults.SUNK_1_SHIP.getValue();
+                        result[1] = shipLocationData[i][0];
+                        result[2] = shipLocationData[i][1];
+                        result[3] = shipLocationData[i][2];
+                        result[4] = shipLocationData[i][3];
+                        return result;
                     }
                 }
-                int[] result = new int[5];
-                result[0] = ShootResults.SUNK_1_SHIP.getValue();
-                result[1] = shipLocationData[i][0];
-                result[2] = shipLocationData[i][1];
-                result[3] = shipLocationData[i][2];
-                result[4] = shipLocationData[i][3];
-                return result;
+                if (isHorizontal == 1) {
+                    int counter = 0;
+                    for (int j = 0; j < length; j++) {
+                        if (board[x][_y++] == BoardCell.SHOT) {
+                            counter++;
+                        }
+                    }
+                    _y = y;
+                    if (counter == length) {
+                        for (int j = 0; j < length; j++) {
+                            board[x][_y++] = BoardCell.SUNK;
+                        }
+                        numSunkShips++;
+                        int[] result = new int[5];
+                        result[0] = ShootResults.SUNK_1_SHIP.getValue();
+                        result[1] = shipLocationData[i][0];
+                        result[2] = shipLocationData[i][1];
+                        result[3] = shipLocationData[i][2];
+                        result[4] = shipLocationData[i][3];
+                        return result;
+                    }
+                }
             }
         }
         return null;

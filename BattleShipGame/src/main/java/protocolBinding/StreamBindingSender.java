@@ -30,14 +30,13 @@ public class StreamBindingSender implements GameSender {
         this.dos.writeInt(StreamBinding.SHOOT);
         this.dos.writeInt(x);
         this.dos.writeInt(y);
-        
     }
 
     @Override
     public void sendShootResult(int[] result) throws IOException, StatusException {
-        this.dos.write(StreamBinding.RESULT);
+        this.dos.writeInt(StreamBinding.RESULT);
         for (int i = 0; i < result.length; i++) {
-            this.dos.write(result[i]);
-        }       
+            this.dos.writeInt(result[i]);
+        }
     }
 }

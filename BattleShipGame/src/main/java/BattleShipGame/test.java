@@ -19,6 +19,10 @@ public class test {
         DataConnectorThread connector = null;
         GameSender sender = null;
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ////                                   Connection                                     ////
+    //////////////////////////////////////////////////////////////////////////////////////////
+        
         if(args.length == 1) {
             // server
             connector = new DataConnectorThread(Integer.parseInt(args[0]));
@@ -33,6 +37,8 @@ public class test {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
+        
         sender = new StreamBindingSender(connector.getDataOutputStream());
         GameEngine engine = new GameEngine(sender);
         StreamBindingReceiver receiver = new StreamBindingReceiver(connector.getDataInputStream(), engine);
@@ -41,22 +47,83 @@ public class test {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.print(e.getLocalizedMessage());
         }
-        System.out.println("isActive " + engine.isActive());
-        System.out.println("isPassive " + engine.isPassive());
-        //while(true) {
-            
-            // read user input
-            //String stringFromUserInput = userInput.readLine();
-
-            // trim whitespaces on both sides
-            //stringFromUserInput = stringFromUserInput.trim();
-
-            // send
-            //sender.send(stringFromUserInput);
-        //}
+        
+        
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ////                                   Place ships                                     ////
+    //////////////////////////////////////////////////////////////////////////////////////////
+        
+//        int[] ships = {5, 4, 4, 3, 3, 3, 2, 2, 2, 2}; // ships' length
+//        System.out.println("Place ships");
+//        engine.displayShipBoard();
+//        for (int i = 0; i < ships.length; i++) {
+//            int length = ships[i];
+//            while (true) {
+//                try {
+//                    int isHorizontal = console.readBinaryFromStdin("Enter direction for " + (i+1) +". ship with length " + length +" (1 for horizontal, 0 for vertical): ", "Error: Only 0 or 1");
+//                    int x = console.readIntegerFromStdin("Enter coordinate x (vertical) for " + (i+1) +". ship with length " + length +": ", "Error: Only integers") - 1;
+//                    int y = console.readIntegerFromStdin("Enter coordinate y (horizontal) for " + (i+1) +". ship with length " + length +": ", "Error: Only integers") - 1;
+//                    engine.placeShip(x, y, length, isHorizontal);
+//                    System.out.println("finished111");
+//                    break;
+//                } catch (Exception e) {
+//                    System.err.print(e.getLocalizedMessage()+"\n");
+//                }
+//            }
+//            engine.displayShipBoard();
+//        }
+        // for testing
+        try {
+            engine.placeShip(0, 0, 5, 1);
+            engine.placeShip(1, 1, 4, 1);
+            engine.placeShip(2, 2, 4, 1);
+            engine.placeShip(3, 3, 3, 1);
+            engine.placeShip(4, 4, 3, 1);
+            engine.placeShip(5, 5, 3, 1);
+            engine.placeShip(6, 6, 2, 1);
+            engine.placeShip(7, 7, 2, 1);
+            engine.placeShip(8, 8, 2, 1);
+            engine.placeShip(9, 8, 2, 1);
+        } catch (Exception e) {
+            System.err.println(e.getLocalizedMessage());
+        }
+        
+        while(true) {
+            if (engine.isActive()) {
+                engine.displayShipBoard();
+                engine.displayRecordBoard();
+                while (true) {
+                    try {
+                        int x = console.readIntegerFromStdin("Enter coordinate x (vertical) for shooting: ", "Error: Only integers") - 1;
+                        int y = console.readIntegerFromStdin("Enter coordinate y (horizontal) for shooting: ", "Error: Only integers") - 1;
+                        engine.sendShoot(x, y);
+                        break;
+                    } catch (Exception e) {
+                        System.err.println(e.getLocalizedMessage());
+                    }
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+                engine.displayShipBoard();
+                engine.displayRecordBoard();
+            }
+            if (engine.isPassive()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+            if (engine.isGameOver()) {
+                receiver.interrupt();;
+                break;
+            }
+        }
     }
 
     private static void printUsageMessage() {
