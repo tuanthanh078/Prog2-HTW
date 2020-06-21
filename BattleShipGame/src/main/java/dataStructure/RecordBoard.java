@@ -36,7 +36,7 @@ public class RecordBoard {
     
     private void checkValidCoordinate(int x, int y) throws GameException {
         if (x >= DIM || y >= DIM || x < 0 || y < 0) {
-            throw new GameException("wrong parameters");
+            throw new GameException("Error: Unvalid coordinates");
         }
     }
     
@@ -45,7 +45,7 @@ public class RecordBoard {
         if (this.board[x][y] == BoardCell.MISSED ||
             this.board[x][y] == BoardCell.SHOT ||
             this.board[x][y] == BoardCell.SUNK) {
-            throw new GameException("position already occupied");
+            throw new GameException("Error: Position already occupied");
         }
     }
     

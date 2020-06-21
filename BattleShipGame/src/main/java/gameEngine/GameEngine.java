@@ -55,6 +55,9 @@ public class GameEngine implements GameReceiver, GameUsage {
         if (shipBoard.isGameOver()) {
             enemyShootResults[0] = ShootResults.GAMEOVER.getValue();
             this.status = GameStatus.LOST;
+            System.out.println();
+            System.out.println("---------------------------------------------------------------------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------");
             System.out.println("Game Over");
             System.out.println("You lost");
         }
@@ -87,12 +90,15 @@ public class GameEngine implements GameReceiver, GameUsage {
                 shipLocationData[2] = result[3];
                 shipLocationData[3] = result[4];
                 recordBoard.sunk(shipLocationData);
-                status = GameStatus.WON;
+                this.status = GameStatus.WON;
+                System.out.println();
+                System.out.println("---------------------------------------------------------------------------------------------------------------------");
+                System.out.println("---------------------------------------------------------------------------------------------------------------------");
                 System.out.println("Game Over");
                 System.out.println("You won");
                 break;
             default:
-                System.err.print("Invalid result!");
+                System.err.print("Error: Invalid result!");
                 break;
         }
     }

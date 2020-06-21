@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="BattleShipGame/GameGUI.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/BattleShipGame/GameGUI.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=BattleShipGame/src\/main\/java&lt;BattleShipGame{GameGUI.java[GameGUI" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/BattleShipGame/.gitignore"/>
+        <file path="/BattleShipGame/.project"/>
+        <javaElement handleIdentifier="=BattleShipGame/src\/test\/java"/>
+        <javaElement handleIdentifier="=BattleShipGame/src\/test\/resources"/>
+        <folder path="/BattleShipGame/src"/>
+        <file path="/BattleShipGame/build.gradle"/>
+        <file path="/BattleShipGame/BattleShipGame.iml"/>
+        <file path="/BattleShipGame/.classpath"/>
+        <folder path="/BattleShipGame/gradle"/>
+        <file path="/BattleShipGame/.gitattributes"/>
+        <file path="/BattleShipGame/gradlew"/>
+        <javaElement handleIdentifier="=BattleShipGame/src\/main\/resources"/>
+        <folder path="/BattleShipGame/bin"/>
+        <javaElement handleIdentifier="=BattleShipGame/src\/main\/java"/>
+        <file path="/BattleShipGame/gradlew.bat"/>
+        <file path="/BattleShipGame/BattleShipGame.ipr"/>
+        <file path="/BattleShipGame/BattleShipGame.iws"/>
+        <file path="/BattleShipGame/settings.gradle"/>
+    </selectedElements>
+</jardesc>

@@ -30,7 +30,7 @@ public class ShipBoard {
             checkValidCoordinate(x+length-1, y);
             for (int i = 0; i < length; i++) {
                 if (board[_x++][y] == BoardCell.SHIP) {
-                    throw new GameException("collision");
+                    throw new GameException("Error: Collision");
                 }
             }
             _x = x;
@@ -42,7 +42,7 @@ public class ShipBoard {
             checkValidCoordinate(x, y+length-1);
             for (int i = 0; i < length; i++) {
                 if (board[x][_y++] == BoardCell.SHIP) {
-                    throw new GameException("collision");
+                    throw new GameException("Error: Collision");
                 }
             }
             _y = y;
@@ -110,7 +110,7 @@ public class ShipBoard {
     
     private void checkValidCoordinate(int x, int y) throws GameException {
         if (x >= DIM || y >= DIM || x < 0 || y < 0) {
-            throw new GameException("wrong parameters");
+            throw new GameException("Error: Unvalid coordinates");
         }
     }
     
@@ -119,7 +119,7 @@ public class ShipBoard {
         if (this.board[x][y] == BoardCell.MISSED ||
             this.board[x][y] == BoardCell.SHOT ||
             this.board[x][y] == BoardCell.SUNK) {
-            throw new GameException("position already occupied");
+            throw new GameException("Error: Position already occupied");
         }
     }
       
