@@ -120,22 +120,25 @@ public class GameGUI {
     
     private static void placeShips(GameEngine engine) {
         int[] ships = {5, 4, 4, 3, 3, 3, 2, 2, 2, 2}; // ships' length
+        System.out.println();
         System.out.println("Place your ships: ");
+        System.out.println();
         engine.displayShipBoard();
         for (int i = 0; i < ships.length; i++) {
             int length = ships[i];
             while (true) {
                 try {
+                    System.out.println();
                     int isHorizontal = console.readBinaryFromStdin("Enter direction for " + (i+1) +". ship with length " + length +" (1 for horizontal, 0 for vertical): ", "Error: Only 0 or 1");
                     int x = console.readIntegerFromStdin("Enter coordinate x (vertical) for " + (i+1) +". ship with length " + length +": ", "Error: Only integers") - 1;
                     int y = console.readIntegerFromStdin("Enter coordinate y (horizontal) for " + (i+1) +". ship with length " + length +": ", "Error: Only integers") - 1;
                     engine.placeShip(x, y, length, isHorizontal);
-                    System.out.println("finished111");
                     break;
                 } catch (Exception e) {
                     System.err.print(e.getLocalizedMessage()+"\n");
                 }
             }
+            System.out.println();
             engine.displayShipBoard();
         }
     }
