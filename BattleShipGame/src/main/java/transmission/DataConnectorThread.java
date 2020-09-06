@@ -1,19 +1,22 @@
 package transmission;
 
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * This class implements the connection between client and server.
+ */
 public class DataConnectorThread extends Thread
                                  implements DataConnection {
     private Socket socket = null;
     private String address = null;
     private int port;
+    
     /**
-     * Create client side - open connection to address / port
+     * Creates client side - open connection to address / port
      * 
      * @param address IPv4 address of server
      * @param port server port
@@ -24,7 +27,7 @@ public class DataConnectorThread extends Thread
     }
 
     /**
-     * Create server side - open port on this port and wait for one client
+     * Creates server side - open port on this port and wait for one client
      * 
      * @param port server port
      */
@@ -32,6 +35,10 @@ public class DataConnectorThread extends Thread
         this.port = port;
     }
     
+    /**
+     * Waits for a client to connect at server side or connects to server at
+     * client side
+     */
     @Override
     public void run() {
         if (address == null) {
@@ -64,11 +71,24 @@ public class DataConnectorThread extends Thread
         }
     }
     
+    /**
+     * Returns an object of DataInputStream from the socket
+     * 
+     * @return an object of DataInputStream
+     * @throws IOException
+     */
     @Override
     public DataInputStream getDataInputStream() throws IOException {
         return new DataInputStream(socket.getInputStream()); 
     }
+    
 
+    /**
+     * Returns an object of DataInputStream from the socket
+     * 
+     * @return an object of DataOutputStream
+     * @throws IOException
+     */
     @Override
     public DataOutputStream getDataOutputStream() throws IOException {
         return new DataOutputStream(socket.getOutputStream());
