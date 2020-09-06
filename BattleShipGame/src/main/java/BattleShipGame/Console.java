@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 /**
  * This class implements methods for reading integers or strings
- * from System.in (stdin) 
+ * from System.in (stdin)
  */
 
 public class Console {
